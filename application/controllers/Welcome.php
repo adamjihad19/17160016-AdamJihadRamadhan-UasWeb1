@@ -23,11 +23,34 @@ class Welcome extends CI_Controller {
 		$this->load->view('welcome_message');
 	}
 	
-
-		public function home(){
-			$data="Welcome";
-			$this->template->load("theme","formuas",$data);
-		
-		  }
+	public function home(){
+		$data="Welcome";
+		$this->template->load("theme","formuas",$data);
 	
+	  }
+
+	public function save()
+	{
+		 $firstname=$this->input->post('firstname');
+         $lastname=$this->input->post('lastname');
+         $gender=$this->input->post('gender');
+         $birth=$this->input->post('birth');
+         $category=$this->input->post('category');
+		 $membership=$this->input->post('membership');
+		 echo $firstname ;
+	
+		 $this->load->model('Moduas');
+		 $this->Moduas->save($firstname,$lastname,$gender,$birth,$category,$membership);
+	     redirect('welcome/viewdata');
+	}
+
+	public function viewdata(){
+		$this->load->model('Moduas');
+		$data['table_person'] = $this->Moduas->select_data()->result();
+		$this->template->load('theme', 'output', $data);
+	}
+	public function deldata($firstname,$lastname,$gender,$birth,$category,$membership){
+		$this->load->model('Moduas');
+		$this->Moduas->delete_data();
+	}
 }
